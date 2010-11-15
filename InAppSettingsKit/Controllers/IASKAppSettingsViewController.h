@@ -24,7 +24,7 @@
 @end
 
 
-@interface IASKAppSettingsViewController : UIViewController <UITextFieldDelegate, UINavigationControllerDelegate> {
+@interface IASKAppSettingsViewController : UIViewController <UITextFieldDelegate, UINavigationControllerDelegate, UIActionSheetDelegate> {
 	id<IASKSettingsDelegate>  _delegate;
     IBOutlet UITableView    *_tableView;
     

@@ -59,6 +59,13 @@
 #define kIASKPSChildPaneSpecifier             @"PSChildPaneSpecifier"
 #define kIASKOpenURLSpecifier                 @"IASKOpenURLSpecifier"
 
+#define kIASKPSDatePickerSpecifier            @"PSDatePickerSpecifier"
+#define kIASKPSDatePickerMode				  @"DatePickerMode"
+#define kIASKDatePickerModeTime				  @"DatePickerModeTime"
+#define kIASKDatePickerModeDate				  @"DatePickerModeDate"
+#define kIASKDatePickerModeDateAndTime		  @"DatePickerModeDateAndTime"
+#define kIASKDatePickerModeCountDownTimer     @"DatePickerModeCountDownTimer"
+
 #define kIASKBundleFolder                     @"Settings.bundle"
 #define kIASKBundleFolderAlt                  @"InAppSettings.bundle"
 #define kIASKBundleFilename                   @"Root.plist"
@@ -80,6 +87,8 @@
 
 #define kIASKLabelFontSize                    17
 #define kIASKgrayBlueColor                    [UIColor colorWithRed:0.318 green:0.4 blue:0.569 alpha:1.0]
+
+#define kIASKDatePickerTag							  19999
 
 #ifndef kCFCoreFoundationVersionNumber_iPhoneOS_4_0
 #define kCFCoreFoundationVersionNumber_iPhoneOS_4_0 550.32

@@ -88,6 +88,21 @@
 - (NSString*)type {
     return [_specifierDict objectForKey:kIASKType];
 }
+- (UIDatePickerMode)datePickerMode {
+	if ([[_specifierDict objectForKey:kIASKPSDatePickerMode] isEqualToString:kIASKDatePickerModeCountDownTimer]) {
+        return UIDatePickerModeCountDownTimer;
+    }
+    else if ([[_specifierDict objectForKey:kIASKPSDatePickerMode] isEqualToString:kIASKDatePickerModeDate]) {
+        return UIDatePickerModeDate;
+    }
+    else if ([[_specifierDict objectForKey:kIASKPSDatePickerMode] isEqualToString:kIASKDatePickerModeDateAndTime]) {
+        return UIDatePickerModeDateAndTime;
+    }
+    else if ([[_specifierDict objectForKey:kIASKPSDatePickerMode] isEqualToString:kIASKDatePickerModeTime]) {
+        return UIDatePickerModeTime;
+    }
+    return UIDatePickerModeTime;
+}
 
 - (NSString*)titleForCurrentValue:(id)currentValue {
 	NSArray *values = [self multipleValues];

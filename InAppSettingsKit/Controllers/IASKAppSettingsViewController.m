@@ -20,13 +20,14 @@
 #import "IASKPSToggleSwitchSpecifierViewCell.h"
 #import "IASKPSSliderSpecifierViewCell.h"
 #import "IASKPSTextFieldSpecifierViewCell.h"
+#import "IASKPSDatePickerSpecifierViewCell.h"
 #import "IASKPSTitleValueSpecifierViewCell.h"
 #import "IASKSwitch.h"
 #import "IASKSlider.h"
 #import "IASKSpecifier.h"
 #import "IASKSpecifierValuesViewController.h"
 #import "IASKTextField.h"
-
+#import "IASKDatePicker.h"
 static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3;
 static const CGFloat MINIMUM_SCROLL_FRACTION = 0.2;
 static const CGFloat MAXIMUM_SCROLL_FRACTION = 0.8;
@@ -289,8 +290,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 	return header;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-{
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
 	NSString *footerText = [self.settingsReader footerTextForSection:section];
 	if (_showCreditsFooter && (section == [self.settingsReader numberOfSections]-1)) {
 		// show credits since this is the last section
@@ -401,6 +401,44 @@ CGRect IASKCGRectSwap(CGRect rect);
 		[cell setNeedsLayout];
 		return cell;
 	}
+	#pragma mark -
+	#pragma mark kIASKPSDatePickerSpecifier Addition
+    else if ([[specifier type] isEqualToString:kIASKPSDatePickerSpecifier]) {
+        IASKPSDatePickerSpecifierViewCell *cell = (IASKPSDatePickerSpecifierViewCell*)[tableView dequeueReusableCellWithIdentifier:[specifier type]];
+        
+        if (!cell) {
+            cell = (IASKPSDatePickerSpecifierViewCell*) [[[NSBundle mainBundle] loadNibNamed:@"IASKPSDatePickerSpecifierViewCell" 
+																					  owner:self 
+																					options:nil] objectAtIndex:0];
+			cell.textField.textAlignment = UITextAlignmentLeft;
+			cell.textField.returnKeyType = UIReturnKeyDone;
+			cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        [[cell label] setText:[specifier title]];
+		
+		
+		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+				
+		NSDate *theDate = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+		NSString *textFieldString = @"";
+		if ( theDate == nil) {
+			textFieldString = [specifier defaultStringValue];
+		} else if ([specifier datePickerMode] == UIDatePickerModeTime) {
+			[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+			[dateFormatter setDateStyle:NSDateFormatterNoStyle];
+			textFieldString = [dateFormatter stringFromDate:theDate];
+
+		} else {
+			[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+			[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+
+			textFieldString = [dateFormatter stringFromDate:theDate];
+		}
+        [[cell textField] setText:textFieldString];
+		[cell setNeedsLayout];
+		return cell;
+	}
+	
 	else if ([[specifier type] isEqualToString:kIASKPSSliderSpecifier]) {
         IASKPSSliderSpecifierViewCell *cell = (IASKPSSliderSpecifierViewCell*)[tableView dequeueReusableCellWithIdentifier:[specifier type]];
         
@@ -470,8 +508,10 @@ CGRect IASKCGRectSwap(CGRect rect);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    IASKSpecifier *specifier  = [self.settingsReader specifierForIndexPath:indexPath];
-    
+	IASKSpecifier *specifier  = [self.settingsReader specifierForIndexPath:indexPath];
+    NSString *key			  = [specifier key];
+	NSLog(@"Key is %@", key);
+
     if ([[specifier type] isEqualToString:kIASKPSToggleSwitchSpecifier]) {
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
@@ -506,6 +546,38 @@ CGRect IASKCGRectSwap(CGRect rect);
 		IASKPSTextFieldSpecifierViewCell *textFieldCell = (id)[tableView cellForRowAtIndexPath:indexPath];
 		[textFieldCell.textField becomeFirstResponder];
     }
+	
+	else if ([[specifier type] isEqualToString:kIASKPSDatePickerSpecifier]) {
+		IASKPSDatePickerSpecifierViewCell *cell = (IASKPSDatePickerSpecifierViewCell*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+		[cell.textField resignFirstResponder];
+		
+		UIActionSheet *menu = [[UIActionSheet alloc] initWithTitle:@"Date Picker" 
+														  delegate:self
+												 cancelButtonTitle:@"Cancel"
+											destructiveButtonTitle:nil
+												 otherButtonTitles:@"Ok", nil];
+		
+		// Add the picker
+		IASKDatePicker *pickerView = [[IASKDatePicker alloc] init];
+		
+		pickerView.tag			  = kIASKDatePickerTag;
+		pickerView.datePickerMode = [specifier datePickerMode]; //UIDatePickerModeTime;
+		//pickerView.date = [specifier 
+		[pickerView setKey:key];
+		[pickerView addTarget:self action:@selector(_dateChanged:) forControlEvents:UIControlEventValueChanged];
+		
+		[menu addSubview:pickerView];
+		[menu showInView:self.view];        
+		[menu setBounds:CGRectMake(0,0,320, 480)];
+		
+		CGRect pickerRect = pickerView.bounds;
+		pickerRect.origin.y = -180;
+		pickerView.bounds = pickerRect;
+		[menu sendSubviewToBack:pickerView];
+		[pickerView release];
+		[menu release];
+		
+	}
     else if ([[specifier type] isEqualToString:kIASKPSChildPaneSpecifier]) {
 
         
@@ -567,6 +639,14 @@ CGRect IASKCGRectSwap(CGRect rect);
     IASKTextField *text = (IASKTextField*)sender;
     [[NSUserDefaults standardUserDefaults] setObject:[text text] forKey:[text key]];
     [[NSNotificationCenter defaultCenter] postNotificationName:kIASKAppSettingChanged object:[text key]];
+}
+
+- (void)_dateChanged:(id)sender {
+	NSLog(@"Date changed");
+	IASKDatePicker *datePicker = sender;
+	NSLog(@"Date is %@ and key is %@", [datePicker date], [datePicker key]);
+	[[NSUserDefaults standardUserDefaults] setObject:[datePicker date] forKey:[datePicker key]];
+//	[[NSNotificationCenter defaultCenter] postNotificationName:kIASKAppSettingChanged object:[datePicker key]];
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
@@ -634,7 +714,6 @@ CGRect IASKCGRectSwap(CGRect rect);
 		[_tableView scrollToRowAtIndexPath:textFieldIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
 	}
 }
-
 
 - (void) scrollToOldPosition {
   [_tableView scrollToRowAtIndexPath:_topmostRowBeforeKeyboardWasShown atScrollPosition:UITableViewScrollPositionTop animated:YES];

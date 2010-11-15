@@ -20,6 +20,9 @@
 		AA8D0ED51136E17600EEB1C6 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA8D0ED31136E17600EEB1C6 /* MainWindow.xib */; };
 		AAA468D8125CD9680057A662 /* CustomSubviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA468D6125CD9680057A662 /* CustomSubviewController.m */; };
 		AAA468D9125CD9680057A662 /* CustomSubviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAA468D7125CD9680057A662 /* CustomSubviewController.xib */; };
+		CC93D32B12907A340051F91A /* IASKDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = CC93D32A12907A340051F91A /* IASKDatePicker.m */; };
+		CCAC21DF127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAC21DE127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.m */; };
+		CCE938F112812528001085FD /* IASKPSDatePickerSpecifierViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCE938F012812528001085FD /* IASKPSDatePickerSpecifierViewCell.xib */; };
 		DA33F59510BC2222004736E8 /* IASKAppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA33F57A10BC2222004736E8 /* IASKAppSettingsViewController.m */; };
 		DA33F59610BC2222004736E8 /* IASKSpecifierValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA33F57C10BC2222004736E8 /* IASKSpecifierValuesViewController.m */; };
 		DA33F59710BC2222004736E8 /* IASKSettingsReader.m in Sources */ = {isa = PBXBuildFile; fileRef = DA33F57F10BC2222004736E8 /* IASKSettingsReader.m */; };
@@ -63,6 +66,11 @@
 		AAA468D5125CD9680057A662 /* CustomSubviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSubviewController.h; sourceTree = "<group>"; };
 		AAA468D6125CD9680057A662 /* CustomSubviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSubviewController.m; sourceTree = "<group>"; };
 		AAA468D7125CD9680057A662 /* CustomSubviewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomSubviewController.xib; sourceTree = "<group>"; };
+		CC93D32912907A340051F91A /* IASKDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKDatePicker.h; sourceTree = "<group>"; };
+		CC93D32A12907A340051F91A /* IASKDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IASKDatePicker.m; sourceTree = "<group>"; };
+		CCAC21DD127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKPSDatePickerSpecifierViewCell.h; sourceTree = "<group>"; };
+		CCAC21DE127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IASKPSDatePickerSpecifierViewCell.m; sourceTree = "<group>"; };
+		CCE938F012812528001085FD /* IASKPSDatePickerSpecifierViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IASKPSDatePickerSpecifierViewCell.xib; sourceTree = "<group>"; };
 		DA33F57910BC2222004736E8 /* IASKAppSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKAppSettingsViewController.h; sourceTree = "<group>"; };
 		DA33F57A10BC2222004736E8 /* IASKAppSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IASKAppSettingsViewController.m; sourceTree = "<group>"; };
 		DA33F57B10BC2222004736E8 /* IASKSpecifierValuesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKSpecifierValuesViewController.h; sourceTree = "<group>"; };
@@ -215,6 +223,8 @@
 		DA33F58210BC2222004736E8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CC93D32912907A340051F91A /* IASKDatePicker.h */,
+				CC93D32A12907A340051F91A /* IASKDatePicker.m */,
 				DA33F58310BC2222004736E8 /* IASKPSSliderSpecifierViewCell.h */,
 				DA33F58410BC2222004736E8 /* IASKPSSliderSpecifierViewCell.m */,
 				DA33F58510BC2222004736E8 /* IASKPSTextFieldSpecifierViewCell.h */,
@@ -229,6 +239,8 @@
 				DA33F58C10BC2222004736E8 /* IASKSwitch.m */,
 				DA33F58D10BC2222004736E8 /* IASKTextField.h */,
 				DA33F58E10BC2222004736E8 /* IASKTextField.m */,
+				CCAC21DD127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.h */,
+				CCAC21DE127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.m */,
 			);
 			name = Views;
 			path = ../InAppSettingsKit/Views;
@@ -237,6 +249,7 @@
 		DA33F58F10BC2222004736E8 /* Xibs */ = {
 			isa = PBXGroup;
 			children = (
+				CCE938F012812528001085FD /* IASKPSDatePickerSpecifierViewCell.xib */,
 				DA33F59010BC2222004736E8 /* IASKAppSettingsView.xib */,
 				DA33F59110BC2222004736E8 /* IASKPSSliderSpecifierViewCell.xib */,
 				DA33F59210BC2222004736E8 /* IASKPSTextFieldSpecifierViewCell.xib */,
@@ -323,6 +336,7 @@
 				6A1F35EE11490727003E6295 /* Icon.png in Resources */,
 				AA40952A1149663600C3BBFF /* Localizable.strings in Resources */,
 				AAA468D9125CD9680057A662 /* CustomSubviewController.xib in Resources */,
+				CCE938F112812528001085FD /* IASKPSDatePickerSpecifierViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +362,8 @@
 				DA33F59E10BC2222004736E8 /* IASKTextField.m in Sources */,
 				AA87D1DD113FB0FA00101881 /* IASKPSTitleValueSpecifierViewCell.m in Sources */,
 				AAA468D8125CD9680057A662 /* CustomSubviewController.m in Sources */,
+				CCAC21DF127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.m in Sources */,
+				CC93D32B12907A340051F91A /* IASKDatePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
