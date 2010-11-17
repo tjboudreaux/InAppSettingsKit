@@ -1,0 +1,3 @@
+[submodule "CPLockController"]
+	path = CPLockController
+	url = git@github.com:tjboudreaux/CPLockController.git
