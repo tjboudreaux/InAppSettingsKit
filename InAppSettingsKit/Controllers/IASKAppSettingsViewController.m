@@ -28,6 +28,9 @@
 #import "IASKSpecifierValuesViewController.h"
 #import "IASKTextField.h"
 #import "IASKDatePicker.h"
+
+#import "CPLockController.h"
+
 static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3;
 static const CGFloat MINIMUM_SCROLL_FRACTION = 0.2;
 static const CGFloat MAXIMUM_SCROLL_FRACTION = 0.8;
@@ -626,6 +629,15 @@ CGRect IASKCGRectSwap(CGRect rect);
     } else if ([[specifier type] isEqualToString:kIASKOpenURLSpecifier]) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:specifier.file]];    
+	
+	} else if ([[specifier type] isEqualToString:kIASKPSCPLockControllerSpecifier]) {
+		CPLockController *lockController = [[CPLockController alloc]initWithStyle:CPLockControllerTypeSet];
+		
+		lockController.delegate = self;
+		lockController.name		= [specifier key];	
+		
+		[self presentModalViewController:lockController animated:YES];
+		
 	} else {
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
@@ -743,6 +755,23 @@ CGRect IASKCGRectSwap(CGRect rect);
 	// wait 0.5 sec until UI is available after applicationWillEnterForeground
 	[_tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
 }
+
+#pragma mark CPLockControllerDelegate Methods
+
+- (void)lockController:(CPLockController*)controller DidFinish:(NSString*)passcode {
+    //called when the controller is finished
+    //a passcode is passed only when setting a new code
+    if(passcode){
+        NSLog(@"in settings file new passcode: %@",passcode);
+		[[NSUserDefaults standardUserDefaults] setObject:passcode forKey:controller.name];
+    } 
+}
+
+- (void)lockControllerDidCancel {
+    //called when user hits cancel button
+    NSLog(@"user cancelled auth");
+}
+
 
 #pragma mark CGRect Utility function
 CGRect IASKCGRectSwap(CGRect rect) {

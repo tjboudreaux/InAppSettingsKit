@@ -20,6 +20,7 @@
 		AA8D0ED51136E17600EEB1C6 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA8D0ED31136E17600EEB1C6 /* MainWindow.xib */; };
 		AAA468D8125CD9680057A662 /* CustomSubviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA468D6125CD9680057A662 /* CustomSubviewController.m */; };
 		AAA468D9125CD9680057A662 /* CustomSubviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAA468D7125CD9680057A662 /* CustomSubviewController.xib */; };
+		CC66053912936AB400545960 /* CPLockController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC66053812936AB400545960 /* CPLockController.m */; };
 		CC93D32B12907A340051F91A /* IASKDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = CC93D32A12907A340051F91A /* IASKDatePicker.m */; };
 		CCAC21DF127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAC21DE127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.m */; };
 		CCE938F112812528001085FD /* IASKPSDatePickerSpecifierViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCE938F012812528001085FD /* IASKPSDatePickerSpecifierViewCell.xib */; };
@@ -66,6 +67,8 @@
 		AAA468D5125CD9680057A662 /* CustomSubviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSubviewController.h; sourceTree = "<group>"; };
 		AAA468D6125CD9680057A662 /* CustomSubviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSubviewController.m; sourceTree = "<group>"; };
 		AAA468D7125CD9680057A662 /* CustomSubviewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomSubviewController.xib; sourceTree = "<group>"; };
+		CC66053712936AB400545960 /* CPLockController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPLockController.h; path = ../CPLockController/Classes/CPLockController.h; sourceTree = SOURCE_ROOT; };
+		CC66053812936AB400545960 /* CPLockController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPLockController.m; path = ../CPLockController/Classes/CPLockController.m; sourceTree = SOURCE_ROOT; };
 		CC93D32912907A340051F91A /* IASKDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKDatePicker.h; sourceTree = "<group>"; };
 		CC93D32A12907A340051F91A /* IASKDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IASKDatePicker.m; sourceTree = "<group>"; };
 		CCAC21DD127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IASKPSDatePickerSpecifierViewCell.h; sourceTree = "<group>"; };
@@ -184,9 +187,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CC66053A12936AC600545960 /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				CC66053712936AB400545960 /* CPLockController.h */,
+				CC66053812936AB400545960 /* CPLockController.m */,
+			);
+			name = Vendors;
+			sourceTree = "<group>";
+		};
 		DA33F57710BC2222004736E8 /* InAppSettingsKit */ = {
 			isa = PBXGroup;
 			children = (
+				CC66053A12936AC600545960 /* Vendors */,
 				DA33F57810BC2222004736E8 /* Controllers */,
 				DA33F57D10BC2222004736E8 /* Models */,
 				DA33F58210BC2222004736E8 /* Views */,
@@ -364,6 +377,7 @@
 				AAA468D8125CD9680057A662 /* CustomSubviewController.m in Sources */,
 				CCAC21DF127DAF5600299879 /* IASKPSDatePickerSpecifierViewCell.m in Sources */,
 				CC93D32B12907A340051F91A /* IASKDatePicker.m in Sources */,
+				CC66053912936AB400545960 /* CPLockController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

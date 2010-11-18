@@ -15,16 +15,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CPLockController.h"
 
 @class IASKSettingsReader;
 @class IASKAppSettingsViewController;
-
 @protocol IASKSettingsDelegate
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender;
 @end
 
 
-@interface IASKAppSettingsViewController : UIViewController <UITextFieldDelegate, UINavigationControllerDelegate, UIActionSheetDelegate> {
+@interface IASKAppSettingsViewController : UIViewController <UITextFieldDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, CPLockControllerDelegate> {
 	id<IASKSettingsDelegate>  _delegate;
     IBOutlet UITableView    *_tableView;
     

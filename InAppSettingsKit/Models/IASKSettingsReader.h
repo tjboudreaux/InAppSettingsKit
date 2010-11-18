@@ -66,6 +66,8 @@
 #define kIASKDatePickerModeDateAndTime		  @"DatePickerModeDateAndTime"
 #define kIASKDatePickerModeCountDownTimer     @"DatePickerModeCountDownTimer"
 
+#define kIASKPSCPLockControllerSpecifier	  @"CPLockControllerSpecifier"
+
 #define kIASKBundleFolder                     @"Settings.bundle"
 #define kIASKBundleFolderAlt                  @"InAppSettings.bundle"
 #define kIASKBundleFilename                   @"Root.plist"
