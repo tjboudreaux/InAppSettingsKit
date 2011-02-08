@@ -62,6 +62,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 @synthesize showCreditsFooter = _showCreditsFooter;
 @synthesize showDoneButton = _showDoneButton;
 
+
 #pragma mark accessors
 - (IASKSettingsReader*)settingsReader {
 	if (!_settingsReader) {
@@ -165,6 +166,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 	NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
 	IASK_IF_IOS4_OR_GREATER([dc addObserver:self selector:@selector(synchronizeUserDefaults) name:UIApplicationDidEnterBackgroundNotification object:[UIApplication sharedApplication]];);
 	IASK_IF_IOS4_OR_GREATER([dc addObserver:self selector:@selector(reload) name:UIApplicationWillEnterForegroundNotification object:[UIApplication sharedApplication]];);
+
 	[dc addObserver:self selector:@selector(synchronizeUserDefaults) name:UIApplicationWillTerminateNotification object:[UIApplication sharedApplication]];
 
 	[dc addObserver:self
@@ -563,9 +565,15 @@ CGRect IASKCGRectSwap(CGRect rect);
 		// Add the picker
 		IASKDatePicker *pickerView = [[IASKDatePicker alloc] init];
 		
-		pickerView.tag			  = kIASKDatePickerTag;
+		pickerView.tag			  = indexPath.row;
 		pickerView.datePickerMode = [specifier datePickerMode]; //UIDatePickerModeTime;
-		//pickerView.date = [specifier 
+		
+		id currentDate = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+		if (currentDate != nil){
+			pickerView.date = currentDate;
+		}
+		
+		
 		[pickerView setKey:key];
 		[pickerView addTarget:self action:@selector(_dateChanged:) forControlEvents:UIControlEventValueChanged];
 		
@@ -635,7 +643,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 		
 		lockController.delegate = self;
 		lockController.name		= [specifier key];	
-		
+
 		[self presentModalViewController:lockController animated:YES];
 		
 	} else {
@@ -656,10 +664,20 @@ CGRect IASKCGRectSwap(CGRect rect);
 - (void)_dateChanged:(id)sender {
 	NSLog(@"Date changed");
 	IASKDatePicker *datePicker = sender;
+	//table always has only 1 section
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:datePicker.tag inSection:0];
+	
+	IASKPSDatePickerSpecifierViewCell *cell = (IASKPSDatePickerSpecifierViewCell*)[_tableView cellForRowAtIndexPath:indexPath];
+	cell.textField.text = [NSString stringWithFormat:@"%@",[datePicker date]];
+
 	NSLog(@"Date is %@ and key is %@", [datePicker date], [datePicker key]);
 	[[NSUserDefaults standardUserDefaults] setObject:[datePicker date] forKey:[datePicker key]];
-//	[[NSNotificationCenter defaultCenter] postNotificationName:kIASKAppSettingChanged object:[datePicker key]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kIASKAppSettingChanged object:[datePicker key]];
+	[self synchronizeUserDefaults];
+	[self reload];
 }
+
+
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
 	[textField setTextAlignment:UITextAlignmentLeft];
@@ -748,12 +766,14 @@ CGRect IASKCGRectSwap(CGRect rect);
 #pragma mark Notifications
 
 - (void)synchronizeUserDefaults {
+	NSLog(@"synchronizing");
   [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)reload {
 	// wait 0.5 sec until UI is available after applicationWillEnterForeground
 	[_tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
+	NSLog(@"reloaded");
 }
 
 #pragma mark CPLockControllerDelegate Methods
@@ -762,8 +782,10 @@ CGRect IASKCGRectSwap(CGRect rect);
     //called when the controller is finished
     //a passcode is passed only when setting a new code
     if(passcode){
-        NSLog(@"in settings file new passcode: %@",passcode);
+        NSLog(@"in settings file new passcode: %@ for the key %@",passcode, controller.name);
 		[[NSUserDefaults standardUserDefaults] setObject:passcode forKey:controller.name];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kIASKAppSettingChanged object:controller.name];
+		[self synchronizeUserDefaults];
     } 
 }
 
